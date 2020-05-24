@@ -1,4 +1,4 @@
-export const dataIsValid = (data) => {
+export const dataIsInvalid = (data) => {
   if (!data.length) {
     return true;
   }

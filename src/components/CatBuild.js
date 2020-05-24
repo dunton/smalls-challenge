@@ -1,9 +1,11 @@
 import React, { useContext, useState } from "react";
 import styled from "styled-components";
+import { Redirect } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { CatContext } from "../contexts/catContext";
 import Page from "../styles/Page";
 import Button from "./Button";
+import { dataIsInvalid } from "../utils";
 
 const CatBuild = (props) => {
   const { id } = useParams();
@@ -46,6 +48,12 @@ const CatBuild = (props) => {
   });
 
   const isFinal = data.length === nextIndex ? true : false;
+
+  // check if data is invalid, this way someone can't just stumble onto this page
+  // if data invalid redirect to homepage
+  if (dataIsInvalid(data)) {
+    return <Redirect to="/" />;
+  }
 
   return (
     <Page>

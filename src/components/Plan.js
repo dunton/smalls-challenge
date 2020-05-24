@@ -1,8 +1,10 @@
 import React, { useContext } from "react";
 import styled from "styled-components";
+import { Redirect } from "react-router-dom";
 import Page from "../styles/Page";
 import { CatContext } from "../contexts/catContext";
 import Button from "./Button";
+import { dataIsInvalid } from "../utils";
 
 const Plan = (props) => {
   const { data } = useContext(CatContext);
@@ -10,6 +12,12 @@ const Plan = (props) => {
   const handleClick = () => {
     console.log("data", data);
   };
+
+  // check if data is invalid, this way someone can't just stumble onto this page
+  // if data invalid redirect to homepage
+  if (dataIsInvalid(data)) {
+    return <Redirect to="/" />;
+  }
   return (
     <Page>
       <Container>

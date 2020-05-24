@@ -12,7 +12,7 @@ const CatCount = (props) => {
   const handleButtonClick = () => {
     let data = [];
     for (let i = 0; i < catNumber; i++) {
-      data.push({ id: i });
+      data.push({ _id: i });
     }
     updateData(data);
   };
