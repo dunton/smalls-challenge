@@ -1,3 +1,7 @@
-export const checkAccessVailidity = (data) => {
-  console.log(data);
+export const dataIsValid = (data) => {
+  if (!data.length) {
+    return true;
+  }
+
+  return false;
 };

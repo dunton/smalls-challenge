@@ -27,7 +27,7 @@ const CatCount = (props) => {
         <h4>How many cats do you have?</h4>
         <div>
           <p>
-            I have
+            I have&nbsp;
             <span className="btn" onClick={() => toggleDropdown(!dropdown)}>
               {catNumber}
             </span>

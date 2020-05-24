@@ -7,10 +7,11 @@ const Page = (props) => {
 
 const Container = styled.div`
   display: flex;
-  height: 100vh;
+  min-height: 100px;
   width: 100vw;
-  align-items: center;
+  margin-top: 50px;
   justify-content: center;
+  align-items: center;
 `;
 
 export default Page;

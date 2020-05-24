@@ -15,6 +15,10 @@ const CatBuild = (props) => {
   const name = id.split("").splice(1).join("");
   const handleSubmit = (e) => {
     e.preventDefault();
+    resetFields();
+  };
+
+  const resetFields = () => {
     setBreed("");
     setAge("");
     setWeight("");
@@ -24,10 +28,11 @@ const CatBuild = (props) => {
     const cat = data[index];
     let newData = data;
     cat.breed = breed;
-    cat.age = age;
-    cat.weight = weight;
+    cat.age = parseInt(age);
+    cat.weight = parseInt(weight);
     newData[index] = cat;
     updateData(newData);
+    resetFields();
   };
 
   let nextIndex = null;
@@ -66,18 +71,21 @@ const CatBuild = (props) => {
               type="number"
               onChange={(e) => setWeight(e.target.value)}
             />
-          </form>
-          {breed && age && weight && !isFinal && (
-            <div onClick={handleNextButtonClick}>
-              <Button to={`cat-build-${data[nextIndex].name}`} />
-            </div>
-          )}
+            {breed && age && weight && !isFinal && (
+              <div onClick={handleNextButtonClick}>
+                <Button
+                  type="submit"
+                  to={`cat-build-${data[nextIndex].name}`}
+                />
+              </div>
+            )}
 
-          {breed && age && weight && isFinal && (
-            <div onClick={handleNextButtonClick}>
-              <Button to={`plan`} text="See Plan!" />
-            </div>
-          )}
+            {breed && age && weight && isFinal && (
+              <div onClick={handleNextButtonClick}>
+                <Button type="submit" to={`plan`} text="See Plan!" />
+              </div>
+            )}
+          </form>
         </div>
       </Container>
     </Page>
