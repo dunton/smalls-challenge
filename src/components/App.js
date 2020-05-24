@@ -4,6 +4,7 @@ import { CatContextProvider } from "../contexts/catContext";
 import CatCount from "./CatCount";
 import CatNames from "./CatNames";
 import CatBuild from "./CatBuild";
+import Plan from "./Plan";
 import Home from "./Home";
 
 function App() {
@@ -21,6 +22,8 @@ function App() {
             render={(props) => <CatNames {...props} />}
           ></Route>
           <Route path="/cat-build:id" children={<CatBuild />} />
+          <Route path="/plan" render={(props) => <Plan />} />
+
           <Route path="/" render={(props) => <Home {...props} />} />
         </Switch>
       </HashRouter>

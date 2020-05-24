@@ -1,11 +1,13 @@
 import React, { useContext, useState } from "react";
 import styled from "styled-components";
 import { useParams } from "react-router-dom";
+import { CatContext } from "../contexts/catContext";
 import Page from "../styles/Page";
 import Button from "./Button";
 
 const CatBuild = (props) => {
   const { id } = useParams();
+  const { updateData, data } = useContext(CatContext);
   const [breed, setBreed] = useState("");
   const [age, setAge] = useState("");
   const [weight, setWeight] = useState("");
@@ -13,7 +15,32 @@ const CatBuild = (props) => {
   const name = id.split("").splice(1).join("");
   const handleSubmit = (e) => {
     e.preventDefault();
+    setBreed("");
+    setAge("");
+    setWeight("");
   };
+
+  const handleNextButtonClick = () => {
+    const cat = data[index];
+    let newData = data;
+    cat.breed = breed;
+    cat.age = age;
+    cat.weight = weight;
+    newData[index] = cat;
+    updateData(newData);
+  };
+
+  let nextIndex = null;
+  let index = null;
+
+  data.forEach((el, i) => {
+    if (el.name === name) {
+      nextIndex = i + 1;
+      index = i;
+    }
+  });
+
+  const isFinal = data.length === nextIndex ? true : false;
 
   return (
     <Page>
@@ -22,24 +49,33 @@ const CatBuild = (props) => {
           <h4>Tell us more about {name}</h4>
           <form>
             <input
-              placeholder="Cat type.."
+              placeholder="Breed.."
               value={breed}
+              type="text"
               onChange={(e) => setBreed(e.target.value)}
             />
             <input
               placeholder="Age..."
               value={age}
+              type="number"
               onChange={(e) => setAge(e.target.value)}
             />
             <input
               placeholder="Weight..."
               value={weight}
+              type="number"
               onChange={(e) => setWeight(e.target.value)}
             />
           </form>
-          {breed && age && weight && (
-            <div>
-              <Button />
+          {breed && age && weight && !isFinal && (
+            <div onClick={handleNextButtonClick}>
+              <Button to={`cat-build-${data[nextIndex].name}`} />
+            </div>
+          )}
+
+          {breed && age && weight && isFinal && (
+            <div onClick={handleNextButtonClick}>
+              <Button to={`plan`} text="See Plan!" />
             </div>
           )}
         </div>
