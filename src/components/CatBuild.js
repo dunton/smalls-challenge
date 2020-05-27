@@ -9,7 +9,7 @@ import { dataIsInvalid } from "../utils";
 
 const CatBuild = (props) => {
   const { id } = useParams();
-  const { updateData, data } = useContext(CatContext);
+  const { updateData, data, updateStage } = useContext(CatContext);
   const [breed, setBreed] = useState("");
   const [age, setAge] = useState("");
   const [weight, setWeight] = useState("");
@@ -34,6 +34,7 @@ const CatBuild = (props) => {
     cat.weight = parseInt(weight);
     newData[index] = cat;
     updateData(newData);
+    updateStage(3);
     resetFields();
   };
 

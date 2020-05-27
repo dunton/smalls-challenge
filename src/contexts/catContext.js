@@ -4,14 +4,17 @@ const CatContext = createContext();
 
 const CatContextProvider = (props) => {
   const [data, setData] = useState([]);
+  const [stage, setStage] = useState(0);
   const updateData = (catData) => {
     setData(catData);
   };
 
-  const stage = 1;
+  const updateStage = (stage) => {
+    setStage(stage);
+  };
 
   return (
-    <CatContext.Provider value={{ updateData, data, stage }}>
+    <CatContext.Provider value={{ updateData, data, updateStage, stage }}>
       {props.children}
     </CatContext.Provider>
   );

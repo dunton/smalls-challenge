@@ -1,8 +1,14 @@
 import React from "react";
 import styled from "styled-components";
+import Header from "../components/Header";
 
 const Page = (props) => {
-  return <Container>{props.children}</Container>;
+  return (
+    <>
+      <Header />
+      <Container>{props.children}</Container>
+    </>
+  );
 };
 
 const Container = styled.div`

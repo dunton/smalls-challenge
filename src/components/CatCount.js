@@ -5,7 +5,7 @@ import Page from "../styles/Page";
 import Button from "./Button";
 
 const CatCount = (props) => {
-  const { updateData } = useContext(CatContext);
+  const { updateData, updateStage } = useContext(CatContext);
   const [catNumber, setCatNumber] = useState(0);
   const [dropdown, toggleDropdown] = useState(false);
 
@@ -15,12 +15,13 @@ const CatCount = (props) => {
       data.push({ _id: i });
     }
     updateData(data);
+    updateStage(1);
   };
   const handleDropdownItemClick = (i) => {
     setCatNumber(i + 1);
     toggleDropdown(!dropdown);
   };
-  console.log(catNumber);
+
   return (
     <Page>
       <Container>
@@ -59,6 +60,13 @@ const CatCount = (props) => {
 };
 
 const Container = styled.div`
+  h4 {
+    font-size: 42px;
+    margin: 20px 0;
+  }
+  p {
+    font-size: 26px;
+  }
   .dropdown {
     max-height: 200px;
     overflow-y: scroll;
