@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import styled from "styled-components";
 import { Redirect } from "react-router-dom";
 import Page from "../styles/Page";
@@ -9,6 +9,10 @@ import { mobileBreakpoint } from "../styles/breakpoints";
 const Plan = (props) => {
   const { data } = useContext(CatContext);
   const [complete, setComplete] = useState(false);
+
+  useEffect(() => {
+    updateProgress(95);
+  }, []);
 
   const handleClick = () => {
     updateProgress(100);

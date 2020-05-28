@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import styled from "styled-components";
 import { Redirect } from "react-router-dom";
 import { CatContext } from "../contexts/catContext";
@@ -9,9 +9,12 @@ import { mobileBreakpoint } from "../styles/breakpoints";
 
 const CatNames = (props) => {
   const { data, updateData } = useContext(CatContext);
-
   const [name, setName] = useState("");
   const [savedCatNames, setSavedCatNames] = useState([]);
+
+  useEffect(() => {
+    updateProgress(50);
+  }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -40,7 +43,6 @@ const CatNames = (props) => {
       return obj;
     });
     updateData(newData);
-    updateProgress(75);
   };
 
   // check if data is invalid, this way someone can't just stumble onto this page
@@ -52,8 +54,8 @@ const CatNames = (props) => {
     <Page>
       <Container>
         <h4>
-          You have <span>{data.length}</span>&nbsp;cats. Please enter the names
-          of your cats below!
+          You have <span>{data.length}</span>&nbsp;cat{data.length > 1 && "s"}.
+          Please enter the names of your cats below!
         </h4>
         <div>
           <CatNameForm onSubmit={handleSubmit}>

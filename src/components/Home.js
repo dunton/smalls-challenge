@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import Page from "../styles/Page";
 import Button from "./Button";
@@ -6,15 +6,18 @@ import { updateProgress } from "../utils";
 import { mobileBreakpoint } from "../styles/breakpoints";
 
 const Home = (props) => {
+  useEffect(() => {
+    updateProgress(0, true);
+  }, []);
   return (
-    <Page>
+    <Page {...props}>
       <Container>
         <h1>Welcome!</h1>
         <p>
           In order for us to best meet your cats needs we need to get some
           information from you. Click the button below to get started!
         </p>
-        <div onClick={() => updateProgress(25)}>
+        <div>
           <Button to="/cat-count" />
         </div>
       </Container>

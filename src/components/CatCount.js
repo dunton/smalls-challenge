@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import styled from "styled-components";
 import { CatContext } from "../contexts/catContext";
 import Page from "../styles/Page";
@@ -13,13 +13,16 @@ const CatCount = (props) => {
   const [dropdown, toggleDropdown] = useState(false);
   const [error, setError] = useState(false);
 
+  useEffect(() => {
+    updateProgress(25);
+  }, []);
+
   const handleButtonClick = () => {
     let data = [];
     for (let i = 0; i < catNumber; i++) {
       data.push({ _id: i });
     }
     updateData(data);
-    updateProgress(50);
   };
   const handleDropdownItemClick = (i) => {
     setCatNumber(i + 1);

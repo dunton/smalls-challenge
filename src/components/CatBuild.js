@@ -1,19 +1,22 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import styled from "styled-components";
 import { Redirect } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { CatContext } from "../contexts/catContext";
 import Page from "../styles/Page";
 import Button from "./Button";
-import { dataIsInvalid, updateProgress } from "../utils";
+import { dataIsInvalid, updateProgress, urlParamIsInvalid } from "../utils";
 
 const CatBuild = (props) => {
   const { id } = useParams();
   const { updateData, data } = useContext(CatContext);
-
   const [breed, setBreed] = useState("");
   const [age, setAge] = useState("");
   const [weight, setWeight] = useState("");
+
+  useEffect(() => {
+    updateProgress(75);
+  }, []);
 
   const name = id.split("").splice(1).join("");
   const handleSubmit = (e) => {
@@ -52,7 +55,8 @@ const CatBuild = (props) => {
 
   // check if data is invalid, this way someone can't just stumble onto this page
   // if data invalid redirect to homepage
-  if (dataIsInvalid(data)) {
+
+  if (dataIsInvalid(data) || urlParamIsInvalid(name, data)) {
     return <Redirect to="/" />;
   }
 
