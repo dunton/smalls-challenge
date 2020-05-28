@@ -4,25 +4,34 @@ import { Redirect } from "react-router-dom";
 import { CatContext } from "../contexts/catContext";
 import Page from "../styles/Page";
 import Button from "./Button";
-import { dataIsInvalid } from "../utils";
+import { dataIsInvalid, updateProgress } from "../utils";
+import { mobileBreakpoint } from "../styles/breakpoints";
 
 const CatNames = (props) => {
-  const { data, updateData, updateStage } = useContext(CatContext);
+  const { data, updateData } = useContext(CatContext);
+
   const [name, setName] = useState("");
   const [savedCatNames, setSavedCatNames] = useState([]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setSavedCatNames([...savedCatNames, name]);
+    if (!name) {
+      return;
+    }
+    let capitalizedWords = [];
+
+    for (let word of name.split(" ")) {
+      capitalizedWords.push(word[0].toUpperCase() + word.slice(1));
+    }
+
+    setSavedCatNames([...savedCatNames, capitalizedWords.join(" ")]);
     setName("");
   };
 
   const removeCatName = (i) => {
     let names = savedCatNames;
-    const firstHalf = names.slice(0, i);
-    const secondHalf = name.slice(i);
-    const finalArr = [...firstHalf, secondHalf];
-    console.log(finalArr);
+    names.splice(i, 1);
+    setSavedCatNames([...names]);
   };
 
   const handleButtonClick = () => {
@@ -31,7 +40,7 @@ const CatNames = (props) => {
       return obj;
     });
     updateData(newData);
-    updateStage(2);
+    updateProgress(75);
   };
 
   // check if data is invalid, this way someone can't just stumble onto this page
@@ -53,24 +62,26 @@ const CatNames = (props) => {
               value={name}
               onChange={(e) => setName(e.target.value)}
             />
-            <button type="submit" className="btn disabled">
+            <button type="submit" className="btn ">
               Enter
             </button>
           </CatNameForm>
         </div>
-        <div>
-          <h6>Your cats:</h6>
-          <div className="cat-name-container">
-            {savedCatNames.map((name, i) => (
-              <div key={`saved-cat-${name}`} onClick={() => removeCatName(i)}>
-                <span>{name}</span>
-                <i className="small material-icons">clear</i>
-              </div>
-            ))}
+        {savedCatNames.length > 0 && (
+          <div>
+            <h6>Your cats:</h6>
+            <div className="cat-name-container">
+              {savedCatNames.map((name, i) => (
+                <div key={`saved-cat-${i}`} onClick={() => removeCatName(i)}>
+                  <span>{name}</span>
+                  <i className="small material-icons">clear</i>
+                </div>
+              ))}
+            </div>
           </div>
-        </div>
+        )}
         {savedCatNames.length === data.length && (
-          <div onClick={handleButtonClick}>
+          <div className="button-holder" onClick={handleButtonClick}>
             <Button to={`cat-build-${savedCatNames[0]}`} />
           </div>
         )}
@@ -85,12 +96,24 @@ const Container = styled.div`
   margin: auto;
   h4 {
     font-size: 48px;
+    @media screen and (max-width: ${mobileBreakpoint}px) {
+      font-size: 38px;
+      margin-bottom: 30px;
+    }
     span {
       color: #ee6e73;
     }
   }
+
+  h6 {
+    font-size: 32px;
+    @media screen and (max-width: ${mobileBreakpoint}px) {
+      font-size: 26px;
+    }
+  }
   .cat-name-container {
     display: flex;
+    flex-wrap: wrap;
     margin: 20px 0 50px;
     div {
       background: grey;
@@ -101,10 +124,16 @@ const Container = styled.div`
       background: #ee6e73;
       color: white;
       cursor: pointer;
+      margin-top: 10px;
       span {
         padding: 5px;
       }
     }
+  }
+
+  .button-holder {
+    display: flex;
+    justify-content: flex-end;
   }
 `;
 
@@ -116,7 +145,11 @@ const CatNameForm = styled.form`
   justify-content: space-between;
   align-items: center;
   input {
-    width: 90%;
+    width: 85%;
+    margin-right: 5px;
+    &:focus {
+      box-shadow: none;
+    }
   }
   button {
     font-size: 20px;

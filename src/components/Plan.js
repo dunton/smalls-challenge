@@ -1,15 +1,18 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import styled from "styled-components";
 import { Redirect } from "react-router-dom";
 import Page from "../styles/Page";
 import { CatContext } from "../contexts/catContext";
-import Button from "./Button";
-import { dataIsInvalid } from "../utils";
+import { dataIsInvalid, updateProgress } from "../utils";
+import { mobileBreakpoint } from "../styles/breakpoints";
 
 const Plan = (props) => {
   const { data } = useContext(CatContext);
+  const [complete, setComplete] = useState(false);
 
   const handleClick = () => {
+    updateProgress(100);
+    setComplete(true);
     console.log("data", data);
   };
 
@@ -21,32 +24,41 @@ const Plan = (props) => {
   return (
     <Page>
       <Container>
-        <h4>Review Your Plan</h4>
-        <div>
-          <table>
-            <tbody>
-              <tr>
-                <th>Name</th>
-                <th>Breed</th>
-                <th>Age</th>
-                <th>Weight</th>
-              </tr>
-              {data.map(({ name, breed, age, weight }) => {
-                return (
-                  <tr key={`row-${name}`}>
-                    <td>{name}</td>
-                    <td>{breed}</td>
-                    <td>{age}</td>
-                    <td>{weight}</td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-          <div onClick={handleClick}>
-            <Button text="Looks good!" />
+        {complete && (
+          <div>
+            <h2>Congratulations! Your order has been submitted</h2>
           </div>
-        </div>
+        )}
+        {!complete && (
+          <>
+            <h4>Review Your Plan</h4>
+            <div>
+              <table>
+                <tbody>
+                  <tr>
+                    <th>Name</th>
+                    <th>Breed</th>
+                    <th>Age</th>
+                    <th>Weight</th>
+                  </tr>
+                  {data.map(({ name, breed, age, weight }) => {
+                    return (
+                      <tr key={`row-${name}`}>
+                        <td>{name}</td>
+                        <td>{breed}</td>
+                        <td>{age}</td>
+                        <td>{weight}</td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+              <div className="button-holder" onClick={handleClick}>
+                <ButtonDiv>Looks Good!</ButtonDiv>
+              </div>
+            </div>
+          </>
+        )}
       </Container>
     </Page>
   );
@@ -56,8 +68,38 @@ const Container = styled.div`
   width: 80%;
   margin: auto;
 
+  @media screen and (max-width: ${mobileBreakpoint}px) {
+    width: 100%;
+  }
+
+  h2,
   h4 {
     text-align: center;
+  }
+
+  .button-holder {
+    display: flex;
+    justify-content: center;
+    margin: 50px 0;
+  }
+
+  th,
+  td {
+    text-align: center;
+  }
+`;
+
+const ButtonDiv = styled.div`
+  font-size: 20px;
+  border: 1px solid #26a69a;
+  background: #26a69a;
+  color: white;
+  width: 150px;
+  cursor: pointer;
+  text-align: center;
+  &:hover {
+    color: #26a69a;
+    background: white;
   }
 `;
 

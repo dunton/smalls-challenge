@@ -1,27 +1,23 @@
-import React, { useContext } from "react";
+import React from "react";
 import styled from "styled-components";
-import { CatContext } from "../contexts/catContext";
+import { mobileBreakpoint } from "../styles/breakpoints";
 
 const Header = (props) => {
-  const { stage, data } = useContext(CatContext);
-  const width = (stage / 4) * 100;
-
   return (
-    <Container width={width}>
+    <Container>
       <div>
         <h1>Smalls</h1>
       </div>
-      {stage !== 0 && (
-        <div className="progress">
-          <div></div>
-        </div>
-      )}
+      <div className="progress">
+        <div id="progress-bar"></div>
+      </div>
     </Container>
   );
 };
 
 const Container = styled.div`
   color: white;
+
   h1 {
     margin: 20px 0;
     font-size: 60px;
@@ -38,8 +34,13 @@ const Container = styled.div`
 
     &.progress {
       border: 1px solid #26a69a;
+      opacity: 0;
       height: 20px;
       width: 80%;
+      @media screen and (max-width: ${mobileBreakpoint}px) {
+        width: 90%;
+      }
+      max-width: 1200px;
       margin: 10px auto;
       background: white;
       border-radius: 5px;
@@ -48,8 +49,9 @@ const Container = styled.div`
         background: #26a69a;
         left: 0;
         height: 20px;
-        width: ${(props) => props.width}%;
+        width: 0;
         transition: 1s ease-in;
+        transition-property: width;
       }
     }
   }

@@ -5,11 +5,12 @@ import { useParams } from "react-router-dom";
 import { CatContext } from "../contexts/catContext";
 import Page from "../styles/Page";
 import Button from "./Button";
-import { dataIsInvalid } from "../utils";
+import { dataIsInvalid, updateProgress } from "../utils";
 
 const CatBuild = (props) => {
   const { id } = useParams();
-  const { updateData, data, updateStage } = useContext(CatContext);
+  const { updateData, data } = useContext(CatContext);
+
   const [breed, setBreed] = useState("");
   const [age, setAge] = useState("");
   const [weight, setWeight] = useState("");
@@ -34,7 +35,6 @@ const CatBuild = (props) => {
     cat.weight = parseInt(weight);
     newData[index] = cat;
     updateData(newData);
-    updateStage(3);
     resetFields();
   };
 
@@ -55,6 +55,19 @@ const CatBuild = (props) => {
   if (dataIsInvalid(data)) {
     return <Redirect to="/" />;
   }
+
+  const handleFinalButtonClick = () => {
+    handleNextButtonClick();
+    updateProgress(95);
+  };
+
+  const contentCheck = () => {
+    if (breed && age && weight) {
+      return true;
+    }
+
+    return false;
+  };
 
   return (
     <Page>
@@ -80,8 +93,8 @@ const CatBuild = (props) => {
               type="number"
               onChange={(e) => setWeight(e.target.value)}
             />
-            {breed && age && weight && !isFinal && (
-              <div onClick={handleNextButtonClick}>
+            {contentCheck() && !isFinal && (
+              <div className="button-holder" onClick={handleNextButtonClick}>
                 <Button
                   type="submit"
                   to={`cat-build-${data[nextIndex].name}`}
@@ -89,8 +102,8 @@ const CatBuild = (props) => {
               </div>
             )}
 
-            {breed && age && weight && isFinal && (
-              <div onClick={handleNextButtonClick}>
+            {contentCheck() && isFinal && (
+              <div className="button-holder" onClick={handleFinalButtonClick}>
                 <Button type="submit" to={`plan`} text="See Plan!" />
               </div>
             )}
@@ -101,6 +114,12 @@ const CatBuild = (props) => {
   );
 };
 
-const Container = styled.div``;
+const Container = styled.div`
+  .button-holder {
+    display: flex;
+    justify-content: flex-end;
+    margin: 50px 0;
+  }
+`;
 
 export default CatBuild;

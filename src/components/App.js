@@ -4,6 +4,7 @@ import { CatContextProvider } from "../contexts/catContext";
 import CatCount from "./CatCount";
 import CatNames from "./CatNames";
 import CatBuild from "./CatBuild";
+import Header from "./Header";
 import Plan from "./Plan";
 import Home from "./Home";
 
@@ -11,6 +12,9 @@ function App() {
   return (
     <CatContextProvider>
       <HashRouter>
+        <Route path="/">
+          <Header />
+        </Route>
         <Switch>
           <Route
             path="/cat-count"

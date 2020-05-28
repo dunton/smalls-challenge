@@ -1,12 +1,11 @@
-import React, { useContext } from "react";
+import React from "react";
 import styled from "styled-components";
 import Page from "../styles/Page";
 import Button from "./Button";
-import { CatContext } from "../contexts/catContext";
+import { updateProgress } from "../utils";
+import { mobileBreakpoint } from "../styles/breakpoints";
 
 const Home = (props) => {
-  const { updateStage } = useContext(CatContext);
-
   return (
     <Page>
       <Container>
@@ -15,7 +14,7 @@ const Home = (props) => {
           In order for us to best meet your cats needs we need to get some
           information from you. Click the button below to get started!
         </p>
-        <div onClick={() => updateStage(1)}>
+        <div onClick={() => updateProgress(25)}>
           <Button to="/cat-count" />
         </div>
       </Container>
@@ -25,6 +24,9 @@ const Home = (props) => {
 
 const Container = styled.div`
   width: 75%;
+  @media screen and (max-width: ${mobileBreakpoint}px) {
+    width: 100%;
+  }
   margin: auto;
 
   h1 {

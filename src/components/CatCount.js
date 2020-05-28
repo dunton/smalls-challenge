@@ -3,11 +3,15 @@ import styled from "styled-components";
 import { CatContext } from "../contexts/catContext";
 import Page from "../styles/Page";
 import Button from "./Button";
+import Error from "./Error";
+import { updateProgress } from "../utils";
+import { mobileBreakpoint } from "../styles/breakpoints";
 
 const CatCount = (props) => {
-  const { updateData, updateStage } = useContext(CatContext);
+  const { updateData } = useContext(CatContext);
   const [catNumber, setCatNumber] = useState(0);
   const [dropdown, toggleDropdown] = useState(false);
+  const [error, setError] = useState(false);
 
   const handleButtonClick = () => {
     let data = [];
@@ -15,11 +19,12 @@ const CatCount = (props) => {
       data.push({ _id: i });
     }
     updateData(data);
-    updateStage(1);
+    updateProgress(50);
   };
   const handleDropdownItemClick = (i) => {
     setCatNumber(i + 1);
     toggleDropdown(!dropdown);
+    setError(false);
   };
 
   return (
@@ -29,7 +34,10 @@ const CatCount = (props) => {
         <div>
           <p>
             I have&nbsp;
-            <span className="btn" onClick={() => toggleDropdown(!dropdown)}>
+            <span
+              className="btn init-num"
+              onClick={() => toggleDropdown(!dropdown)}
+            >
               {catNumber}
             </span>
             &nbsp;cat{catNumber !== 1 && "s"}!
@@ -37,23 +45,31 @@ const CatCount = (props) => {
           {dropdown && (
             <div className="dropdown">
               {[...Array(20)].map((x, i) => (
-                <div
+                <span
                   key={`cat-number-${i}`}
                   className="btn"
                   onClick={() => handleDropdownItemClick(i)}
                 >
                   {i + 1}
-                </div>
+                </span>
               ))}
-              <div className="btn">20+</div>
+              <span
+                className="btn"
+                onClick={() =>
+                  setError("You have a lot of cats! Please give us a call")
+                }
+              >
+                20+
+              </span>
             </div>
           )}
         </div>
-        {catNumber !== 0 && (
-          <div onClick={handleButtonClick}>
+        {catNumber !== 0 && !error && (
+          <div className="button-holder" onClick={handleButtonClick}>
             <Button to="/cat-names" />
           </div>
         )}
+        {error && <Error err={error} />}
       </Container>
     </Page>
   );
@@ -67,14 +83,29 @@ const Container = styled.div`
   p {
     font-size: 26px;
   }
+
+  .init-num {
+    width: 50px;
+    height: 35px;
+  }
   .dropdown {
     max-height: 200px;
+    max-width: 400px;
+    @media screen and (max-width: ${mobileBreakpoint}px) {
+      max-width: 250px;
+    }
     overflow-y: scroll;
+    display: inline-flex;
+    flex-direction: row;
     > div {
       border: 1px solid white;
       max-width: 50px;
       display: block;
     }
+  }
+  .button-holder {
+    display: flex;
+    justify-content: flex-end;
   }
 `;
 
