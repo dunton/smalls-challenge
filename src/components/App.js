@@ -9,6 +9,7 @@ import Plan from "./Plan";
 import Home from "./Home";
 
 function App() {
+  // wrap provider and use HashRouter
   return (
     <CatContextProvider>
       <HashRouter>
@@ -20,14 +21,12 @@ function App() {
             path="/cat-count"
             render={(props) => <CatCount {...props} />}
           ></Route>
-
           <Route
             path="/cat-names"
             render={(props) => <CatNames {...props} />}
           ></Route>
           <Route path="/cat-build:id" children={<CatBuild />} />
           <Route path="/plan" render={(props) => <Plan />} />
-
           <Route path="/" render={(props) => <Home {...props} />} />
         </Switch>
       </HashRouter>

@@ -1,6 +1,6 @@
 ## The Plan
 
-Keep routing in App.js and use react-router to update urls. Keep overall data in a context which is updated on page submission. Transitions will be done using react-transition-group. Styling will be done with styled-components leveraging off the Materialize CSS library.
+Keep routing in App.js and use react-router to update urls. We will use the Hash Router to avoid any backend issues that sometimes arise with BrowserRouter. Keep overall data in a context which is updated on page submission. Styling will be done with styled-components leveraging off the Materialize CSS library.
 
 ### Instructions
 

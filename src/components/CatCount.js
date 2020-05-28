@@ -13,10 +13,12 @@ const CatCount = (props) => {
   const [dropdown, toggleDropdown] = useState(false);
   const [error, setError] = useState(false);
 
+  // update progress
   useEffect(() => {
     updateProgress(25);
   }, []);
 
+  // push data and update array
   const handleButtonClick = () => {
     let data = [];
     for (let i = 0; i < catNumber; i++) {
@@ -24,6 +26,8 @@ const CatCount = (props) => {
     }
     updateData(data);
   };
+
+  // handle dropdown click
   const handleDropdownItemClick = (i) => {
     setCatNumber(i + 1);
     toggleDropdown(!dropdown);

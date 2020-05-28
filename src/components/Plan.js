@@ -10,11 +10,13 @@ const Plan = (props) => {
   const { data } = useContext(CatContext);
   const [complete, setComplete] = useState(false);
 
+  // update progress
   useEffect(() => {
     updateProgress(95);
   }, []);
 
   const handleClick = () => {
+    // log data and set progress
     updateProgress(100);
     setComplete(true);
     console.log("data", data);

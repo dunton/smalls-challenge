@@ -6,9 +6,11 @@ import { updateProgress } from "../utils";
 import { mobileBreakpoint } from "../styles/breakpoints";
 
 const Home = (props) => {
+  // reset progress
   useEffect(() => {
     updateProgress(0, true);
   }, []);
+
   return (
     <Page {...props}>
       <Container>

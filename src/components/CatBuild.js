@@ -14,22 +14,28 @@ const CatBuild = (props) => {
   const [age, setAge] = useState("");
   const [weight, setWeight] = useState("");
 
+  // update progress
   useEffect(() => {
     updateProgress(75);
   }, []);
 
+  // format url param
   const name = id.split("").splice(1).join("");
+
+  // reset fields and prevent form from submitting
   const handleSubmit = (e) => {
     e.preventDefault();
     resetFields();
   };
 
+  // clear fields
   const resetFields = () => {
     setBreed("");
     setAge("");
     setWeight("");
   };
 
+  // update cat info
   const handleNextButtonClick = () => {
     const cat = data[index];
     let newData = data;
@@ -43,7 +49,7 @@ const CatBuild = (props) => {
 
   let nextIndex = null;
   let index = null;
-
+  // set indexes
   data.forEach((el, i) => {
     if (el.name === name) {
       nextIndex = i + 1;
@@ -53,7 +59,7 @@ const CatBuild = (props) => {
 
   const isFinal = data.length === nextIndex ? true : false;
 
-  // check if data is invalid, this way someone can't just stumble onto this page
+  // check if data or url param is invalid, this way someone can't just stumble onto this page
   // if data invalid redirect to homepage
 
   if (dataIsInvalid(data) || urlParamIsInvalid(name, data)) {
@@ -62,9 +68,9 @@ const CatBuild = (props) => {
 
   const handleFinalButtonClick = () => {
     handleNextButtonClick();
-    updateProgress(95);
   };
 
+  // check content in a function for rendering cleanup
   const contentCheck = () => {
     if (breed && age && weight) {
       return true;

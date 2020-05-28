@@ -12,15 +12,18 @@ const CatNames = (props) => {
   const [name, setName] = useState("");
   const [savedCatNames, setSavedCatNames] = useState([]);
 
+  // update progress
   useEffect(() => {
     updateProgress(50);
   }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    // if no name return
     if (!name) {
       return;
     }
+    // capitalize first letter of each word
     let capitalizedWords = [];
 
     for (let word of name.split(" ")) {
@@ -32,6 +35,7 @@ const CatNames = (props) => {
   };
 
   const removeCatName = (i) => {
+    // splice out index
     let names = savedCatNames;
     names.splice(i, 1);
     setSavedCatNames([...names]);
